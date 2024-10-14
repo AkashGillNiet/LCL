@@ -88,10 +88,35 @@ footer {
     background: #333;
     color: #fff;
 }
+/* CSS for the header and logo */
+.header {
+  background-color: #007bff;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-/* Add the logo CSS here */
+.logo-container {
+  width: 100px; /* Size of the red circle */
+  height: 100px;
+  background-color: red; /* Red background circle */
+  border-radius: 50%; /* Makes the div a circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .logo {
-    width: 50px; /* Adjust size as needed */
-    height: 50px; /* Adjust size as needed */
-    border-radius: 50%; /* Makes the logo round */
-    margin-right: 10px; /* Space between logo and text */
+  width: 80px; /* Adjust the logo size to fit inside the circle */
+  height: auto;
+  border-radius: 50%; /* Optional: If you want the logo to appear circular as well */
+}
+
+.header h1 {
+  color: white;
+  margin-left: 20px;
+  font-size: 24px;
+  vertical-align: middle;
+}
