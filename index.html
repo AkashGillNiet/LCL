@@ -3,61 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APK Store - PPSY Style</title>
     <link rel="stylesheet" href="styles.css">
-    <title>NIET & LCL GROUP</title>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <img src="LCLlogojpg.png" alt="NIET Logo" class="logo">
-            <h1>NIET GROUP</h1>
-            <nav>
-                <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>APK Store</h1>
+            <p>Download your favorite apps here</p>
+            <!-- Search Bar -->
+            <input type="text" id="searchBar" onkeyup="searchApps()" placeholder="Search for apps...">
+        </header>
 
-    <section id="about">
-        <div class="container">
-            <h2>About Us</h2>
-            <p>We are a leading company in NIET & LCL GROUP. Our mission is to provide the best services to our clients.</p>
-        </div>
-    </section>
-
-    <section id="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="service">
-                <h3>Service 1</h3>
-                <p>Description of service 1.</p>
+        <!-- APK List Section -->
+        <section class="apk-grid" id="apkGrid">
+            <div class="apk-card">
+                <h2 class="app-title">App 1</h2>
+                <p>A description of the app goes here.</p>
+                <a href="apk-store/app1.apk" download class="download-btn">Download</a>
             </div>
-            <div class="service">
-                <h3>Service 2</h3>
-                <p>Description of service 2.</p>
+
+            <div class="apk-card">
+                <h2 class="app-title">App 2</h2>
+                <p>A description of the app goes here.</p>
+                <a href="apk-store/app2.apk" download class="download-btn">Download</a>
             </div>
-        </div>
-    </section>
 
-    <section id="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <form>
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
-        </div>
-    </section>
+            <!-- Add more APK cards as needed -->
+        </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-        </div>
-    </footer>
+        <footer>
+            <p>© 2024 YourName. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Search Functionality (JavaScript) -->
+    <script>
+        function searchApps() {
+            const input = document.getElementById('searchBar');
+            const filter = input.value.toLowerCase();
+            const apkGrid = document.getElementById('apkGrid');
+            const apkCards = apkGrid.getElementsByClassName('apk-card');
+            const appTitles = apkGrid.getElementsByClassName('app-title');
+
+            for (let i = 0; i < apkCards.length; i++) {
+                const appTitle = appTitles[i].innerText || appTitles[i].textContent;
+                if (appTitle.toLowerCase().indexOf(filter) > -1) {
+                    apkCards[i].style.display = "";
+                } else {
+                    apkCards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>
