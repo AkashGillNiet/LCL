@@ -18,6 +18,40 @@
             height: 100vh;
         }
 
+        /* Full-Screen Popup */
+        #popup {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: white;
+            z-index: 9999;
+            text-align: center;
+        }
+
+        #popup button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #join-now {
+            background-color: #007bff;
+            color: white;
+        }
+        #already-joined {
+            background-color: #28a745;
+            color: white;
+        }
+
         /* Header */
         #header {
             font-size: 28px;
@@ -56,6 +90,13 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
 </head>
 <body>
+
+<!-- Full-Screen Popup -->
+<div id="popup">
+    <p>Join our Telegram channel <a href="https://t.me/CricketSparx" target="_blank" style="color: lightblue; text-decoration: none;">@CricketSparx</a> for more links!</p>
+    <button id="join-now" onclick="joinNow()">Join Now</button>
+    <button id="already-joined" onclick="closePopup()">Already Joined</button>
+</div>
 
 <!-- Header -->
 <div id="header">CricketSparx</div>
@@ -117,6 +158,17 @@
         }
     } else {
         alert("No URL provided. Please add '?url=your_hls_link.m3u8' to the URL.");
+    }
+
+    // Function to handle "Join Now" button
+    function joinNow() {
+        window.open('https://t.me/CricketSparx', '_blank');
+    }
+
+    // Function to close the popup
+    function closePopup() {
+        const popup = document.getElementById('popup');
+        popup.style.display = 'none';
     }
 </script>
 
