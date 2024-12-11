@@ -3,58 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APK Store - PPSY Style</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>CricketSparx</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Header */
+        #header {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            color: white;
+        }
+
+        /* Video Container */
+        #streaming-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border: 1px solid white;
+        }
+
+        /* Quality Selector */
+        #quality-selector {
+            margin: 10px 0;
+        }
+        #quality-selector select {
+            padding: 5px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            font-size: 16px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>APK Store</h1>
-            <p>Download your favorite apps here</p>
-            <!-- Search Bar -->
-            <input type="text" id="searchBar" onkeyup="searchApps()" placeholder="Search for apps...">
-        </header>
 
-        <!-- APK List Section -->
-        <section class="apk-grid" id="apkGrid">
-            <div class="apk-card">
-                <h2 class="app-title">App 1</h2>
-                <p>A description of the app goes here.</p>
-                <a href="apk-store/app1.apk" download class="download-btn">Download</a>
-            </div>
+<!-- Header -->
+<div id="header">CricketSparx</div>
 
-            <div class="apk-card">
-                <h2 class="app-title">App 2</h2>
-                <p>A description of the app goes here.</p>
-                <a href="apk-store/app2.apk" download class="download-btn">Download</a>
-            </div>
-
-            <!-- Add more APK cards as needed -->
-        </section>
-
-        <footer>
-            <p>© 2024 YourName. All Rights Reserved.</p>
-        </footer>
+<!-- Video Streaming Section -->
+<div id="streaming-container">
+    <video id="videoPlayer" controls></video>
+    <div id="quality-selector">
+        <label for="quality">Select Quality: </label>
+        <select id="quality" onchange="changeQuality()">
+            <option value="-1" selected>Auto</option>
+        </select>
     </div>
+</div>
 
-    <!-- Search Functionality (JavaScript) -->
-    <script>
-        function searchApps() {
-            const input = document.getElementById('searchBar');
-            const filter = input.value.toLowerCase();
-            const apkGrid = document.getElementById('apkGrid');
-            const apkCards = apkGrid.getElementsByClassName('apk-card');
-            const appTitles = apkGrid.getElementsByClassName('app-title');
+<script>
+    const video = document.getElementById('videoPlayer');
+    const qualitySelector = document.getElementById('quality');
+    const hls = new Hls();
 
-            for (let i = 0; i < apkCards.length; i++) {
-                const appTitle = appTitles[i].innerText || appTitles[i].textContent;
-                if (appTitle.toLowerCase().indexOf(filter) > -1) {
-                    apkCards[i].style.display = "";
+    // Function to get the URL parameter
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Get HLS URL from query parameter
+    const hlsUrl = getQueryParam('url');
+
+    if (hlsUrl) {
+        // Initialize HLS.js
+        if (Hls.isSupported()) {
+            hls.loadSource(hlsUrl);
+            hls.attachMedia(video);
+
+            // Populate Quality Levels
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                const levels = hls.levels;
+                levels.forEach((level, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${level.height}p`; // Quality in resolution
+                    qualitySelector.appendChild(option);
+                });
+            });
+
+            // Handle Quality Change
+            function changeQuality() {
+                const quality = parseInt(qualitySelector.value);
+                if (quality === -1) {
+                    hls.currentLevel = -1; // Auto Quality
                 } else {
-                    apkCards[i].style.display = "none";
+                    hls.currentLevel = quality; // Set selected quality
                 }
             }
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Native HLS Support (e.g., Safari)
+            video.src = hlsUrl;
         }
-    </script>
+    } else {
+        alert("No URL provided. Please add '?url=your_hls_link.m3u8' to the URL.");
+    }
+</script>
+
 </body>
 </html>
