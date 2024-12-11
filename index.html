@@ -20,11 +20,18 @@
 
         /* Header */
         #header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 28px;
             font-weight: bold;
             margin: 20px 0;
-            text-align: center;
             color: white;
+        }
+        #header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
         }
 
         /* Video Container */
@@ -43,14 +50,27 @@
         /* Quality Selector */
         #quality-selector {
             margin: 10px 0;
+            position: relative;
+            display: inline-block;
         }
         #quality-selector select {
+            appearance: none;
             padding: 5px;
             border: 1px solid white;
             border-radius: 5px;
             background-color: black;
             color: white;
             font-size: 16px;
+            width: 50px;
+        }
+        #quality-selector::before {
+            content: url('https://cdn-icons-png.flaticon.com/512/126/126472.png'); /* Settings icon */
+            position: absolute;
+            top: 50%;
+            left: -35px;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
@@ -58,15 +78,17 @@
 <body>
 
 <!-- Header -->
-<div id="header">CricketSparx</div>
+<div id="header">
+    <img src="https://cdn-icons-png.flaticon.com/512/2947/2947450.png" alt="Logo"> <!-- Cricket logo -->
+    CricketSparx
+</div>
 
 <!-- Video Streaming Section -->
 <div id="streaming-container">
     <video id="videoPlayer" controls></video>
     <div id="quality-selector">
-        <label for="quality">Select Quality: </label>
         <select id="quality" onchange="changeQuality()">
-            <option value="-1" selected>Auto</option>
+            <option value="-1" selected></option> <!-- Empty for settings icon -->
         </select>
     </div>
 </div>
